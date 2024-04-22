@@ -1,5 +1,5 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { QueueService } from 'src/queue/queue.service';
+import { Controller, Post, Body } from '@nestjs/common'
+import { QueueService } from 'src/queue/queue.service'
 
 @Controller('queue')
 export class QueueController {
@@ -8,23 +8,23 @@ export class QueueController {
   @Post()
   create(@Body() body: any) {
     if (body.event !== 'entry.create') {
-      return;
+      return
     }
     if (!body.entry) {
-      return;
+      return
     }
 
     if (body.model !== 'draft') {
-      return;
+      return
     }
 
     if (!body.entry.title) {
-      return;
+      return
     }
 
     return this.queueService.create({
       title: body.entry.title,
       id: body.entry.id,
-    });
+    })
   }
 }
