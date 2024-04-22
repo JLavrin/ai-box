@@ -1,0 +1,16 @@
+version: "3.6"
+services:
+  api-database:
+    image: postgres:12
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: admin
+
+volumes:
+  db_data:
