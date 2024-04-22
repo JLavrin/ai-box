@@ -1,13 +1,12 @@
-import { Injectable, Logger } from '@nestjs/common'
-import axios, { Axios } from 'axios'
-import { ConfigService } from 'src/common/config/config.service'
-import * as FormData from 'form-data'
-
+import { Injectable, Logger } from '@nestjs/common';
+import axios, { Axios } from 'axios';
+import { ConfigService } from 'src/common/config/config.service';
+import * as FormData from 'form-data';
 
 @Injectable()
 export class StrapiService {
-  private readonly strapiClient: Axios
-  private readonly logger = new Logger(StrapiService.name)
+  private readonly strapiClient: Axios;
+  private readonly logger = new Logger(StrapiService.name);
 
   constructor(private readonly configService: ConfigService) {
     this.strapiClient = axios.create({
@@ -15,7 +14,7 @@ export class StrapiService {
       headers: {
         Authorization: `Bearer ${this.configService.get('STRAPI_TOKEN')}`,
       },
-    })
+    });
   }
 
   public async createArticle(title: string, content: string) {
@@ -25,11 +24,11 @@ export class StrapiService {
           title,
           content,
         },
-      })
+      });
 
-      return post.data.data.id
+      return post.data.data.id;
     } catch (e) {
-      this.logger.error(e)
+      this.logger.error(e);
     }
   }
 
@@ -41,17 +40,17 @@ export class StrapiService {
           'Content-Type': 'multipart/form-data',
           ...formData.getHeaders(),
         },
-      })
+      });
     } catch (e) {
-      this.logger.error(e)
+      this.logger.error(e);
     }
   }
 
   public async deleteDraft(id: string) {
     try {
-      await this.strapiClient.delete(`/api/drafts/${id}`)
+      await this.strapiClient.delete(`/api/drafts/${id}`);
     } catch (e) {
-      this.logger.error(e)
+      this.logger.error(e);
     }
   }
 }

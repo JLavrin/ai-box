@@ -1,18 +1,16 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  console.log('middleware', request.url)
-  const path = new URL(request.url).pathname
-  if (path === '/login') {
-    return NextResponse.next()
-  }
 
-  const token = request.cookies.get('token')
+  const path = request.nextUrl.pathname
+  const response = NextResponse.rewrite(`http://localhost:1337/${path}`)
 
-  if (!token) {
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
+  response.headers.set('Authorization', `Bearer ${process.env.API_TOKEN}`)
 
-  return NextResponse.next()
+  return response
+
+}
+
+export const config = {
+  matcher: '/api/:path*',
 }
