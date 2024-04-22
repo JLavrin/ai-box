@@ -8,7 +8,6 @@ export class AppController {
 
   @Get()
   getHello(@Req() req: Request): string {
-    console.log(req.headers)
     return this.appService.getHello();
   }
 }
